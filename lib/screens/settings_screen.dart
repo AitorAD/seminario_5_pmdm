@@ -12,13 +12,12 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late TextEditingController _textController;
-  final prefs = UserPreferences();
 
   @override
   void initState() {
     super.initState();
-    prefs.lastPage = SettingsScreen.routeName;
-    _textController = new TextEditingController(text: prefs.nombre);
+    UserPreferences.instance.lastPage = SettingsScreen.routeName;
+    _textController = new TextEditingController(text: UserPreferences.instance.nombre);
   }
 
   @override
@@ -26,7 +25,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Ajustes', style: TextStyle(color: Colors.white)),
-          backgroundColor: (prefs.colorSecundario) ? Colors.teal : Colors.blue,
+          backgroundColor: (UserPreferences.instance.colorSecundario) ? Colors.teal : Colors.blue,
           iconTheme: IconThemeData(color: Colors.white),
         ),
         drawer: DrawerMenu(),
@@ -40,29 +39,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Divider(),
             SwitchListTile(
-                value: prefs.colorSecundario,
+                value: UserPreferences.instance.colorSecundario,
                 title: Text('Color secundario'),
                 onChanged: (value) => {
                       setState(() {
-                        prefs.colorSecundario = value;
+                        UserPreferences.instance.colorSecundario = value;
                       })
                     }),
             RadioListTile(
                 value: 1,
                 title: Text('Masculino'),
-                groupValue: prefs.genero,
+                groupValue: UserPreferences.instance.genero,
                 onChanged: (value) => {
                       setState(() {
-                        prefs.genero = value!;
+                        UserPreferences.instance.genero = value!;
                       })
                     }),
             RadioListTile(
                 value: 2,
                 title: Text('Femenino'),
-                groupValue: prefs.genero,
+                groupValue: UserPreferences.instance.genero,
                 onChanged: (value) => {
                       setState(() {
-                        prefs.genero = value!;
+                        UserPreferences.instance.genero = value!;
                       })
                     }),
             Divider(),
@@ -75,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     helperText: 'Nombre de la peresona usando el teléfono'),
                 onChanged: (value) {
                   setState(() {
-                    prefs.nombre = value;
+                    UserPreferences.instance.nombre = value;
                   });
                 },
               ),

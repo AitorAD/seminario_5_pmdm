@@ -9,24 +9,23 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = new UserPreferences();
-    prefs.lastPage = HomeScreen.routeName;
+    UserPreferences.instance.lastPage = HomeScreen.routeName;
     return Scaffold(
       appBar: AppBar(
         title: Text('Preferencias de usuario',
             style: TextStyle(color: Colors.white)),
-        backgroundColor: (prefs.colorSecundario) ? Colors.teal : Colors.blue,
+        backgroundColor: (UserPreferences.instance.colorSecundario) ? Colors.teal : Colors.blue,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: DrawerMenu(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Color secundario: ${prefs.colorSecundario ? 'si' : 'no'}'),
+          Text('Color secundario: ${UserPreferences.instance.colorSecundario ? 'si' : 'no'}'),
           Divider(),
-          Text('Género: ${prefs.genero}'),
+          Text('Género: ${UserPreferences.instance.genero}'),
           Divider(),
-          Text('Nombre usuario: ${prefs.nombre}'),
+          Text('Nombre usuario: ${UserPreferences.instance.nombre}'),
         ],
       ),
     );
