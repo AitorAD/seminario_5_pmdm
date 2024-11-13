@@ -1,3 +1,4 @@
+import 'package:seminario_5/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -28,7 +29,7 @@ class UserPreferences {
   }
 
   set colorSecundario(bool value) {
-    _prefs.setBool('genero', value);
+    _prefs.setBool('colorSecundario', value);
   }
 
   String get nombre {
@@ -37,5 +38,13 @@ class UserPreferences {
 
   set nombre(String value) {
     _prefs.setString('nombre', value);
+  }
+
+  String get lastPage {
+    return _prefs.getString('lastPage') ?? HomeScreen.routeName;
+  }
+
+  set lastPage(String value) {
+    _prefs.setString('lastPage', value);
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seminario_5/shared_prefs/user_preferences.dart';
 import 'package:seminario_5/widgets/drawer_menu.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   static String routeName = 'settings';
@@ -18,6 +17,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
+    prefs.lastPage = SettingsScreen.routeName;
     _textController = new TextEditingController(text: prefs.nombre);
   }
 
@@ -25,7 +25,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Ajustes'),
+          title: Text('Ajustes', style: TextStyle(color: Colors.white)),
+          backgroundColor: (prefs.colorSecundario) ? Colors.teal : Colors.blue,
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         drawer: DrawerMenu(),
         body: ListView(
@@ -40,17 +42,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SwitchListTile(
                 value: prefs.colorSecundario,
                 title: Text('Color secundario'),
-                onChanged: (value) => prefs.colorSecundario = value),
+                onChanged: (value) => {
+                      setState(() {
+                        prefs.colorSecundario = value;
+                      })
+                    }),
             RadioListTile(
                 value: 1,
                 title: Text('Masculino'),
                 groupValue: prefs.genero,
-                onChanged: (value) => prefs.genero = value!),
+                onChanged: (value) => {
+                      setState(() {
+                        prefs.genero = value!;
+                      })
+                    }),
             RadioListTile(
                 value: 2,
                 title: Text('Femenino'),
                 groupValue: prefs.genero,
-                onChanged: (value) => prefs.genero = value!),
+                onChanged: (value) => {
+                      setState(() {
+                        prefs.genero = value!;
+                      })
+                    }),
             Divider(),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -59,7 +73,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 decoration: InputDecoration(
                     labelText: 'Nombre',
                     helperText: 'Nombre de la peresona usando el teléfono'),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  setState(() {
+                    prefs.nombre = value;
+                  });
+                },
               ),
             )
           ],
