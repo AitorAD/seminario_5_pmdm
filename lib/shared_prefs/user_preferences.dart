@@ -1,50 +1,62 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:seminario_5/screens/home_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
+  // La instancia privada y única de la clase (Lazy Initialization)
   static final UserPreferences _instance = UserPreferences._internal();
 
+  // Factory constructor que retorna la única instancia
   factory UserPreferences() {
     return _instance;
   }
 
+  // Constructor interno privado
   UserPreferences._internal();
 
-  late SharedPreferences _prefs;
+  // Instancia de FlutterSecureStorage que se inicializa cuando se necesite
+  late FlutterSecureStorage _prefs;
 
+  set lastPage(String lastPage) {}
+
+  // Método para inicializar las preferencias (se llama solo una vez)
   Future<void> initPrefs() async {
-    _prefs = await SharedPreferences.getInstance();
+    _prefs = FlutterSecureStorage();
   }
 
-  int get genero {
-    return _prefs.getInt('genero') ?? 1;
+  // Métodos getter y setter asíncronos
+  Future<int> getGenero() async {
+    final generoString = await _prefs.read(key: 'genero');
+    return generoString != null ? int.parse(generoString) : 1;
   }
 
-  set genero(int value) {
-    _prefs.setInt('genero', value);
+  Future<void> setGenero(int value) async {
+    await _prefs.write(key: 'genero', value: value.toString());
   }
 
-  bool get colorSecundario {
-    return _prefs.getBool('colorSecundario') ?? false;
+  Future<bool> getColorSecundario() async {
+    final colorSecundarioString = await _prefs.read(key: 'colorSecundario');
+    return colorSecundarioString != null ? colorSecundarioString == 'true' : false;
   }
 
-  set colorSecundario(bool value) {
-    _prefs.setBool('colorSecundario', value);
+  Future<void> setColorSecundario(bool value) async {
+    await _prefs.write(key: 'colorSecundario', value: value.toString());
   }
 
-  String get nombre {
-    return _prefs.getString('nombre') ?? '';
+  Future<String> getNombre() async {
+    final nombre = await _prefs.read(key: 'nombre');
+    return nombre ?? '';
   }
 
-  set nombre(String value) {
-    _prefs.setString('nombre', value);
+  Future<void> setNombre(String value) async {
+    await _prefs.write(key: 'nombre', value: value);
   }
 
-  String get lastPage {
-    return _prefs.getString('lastPage') ?? HomeScreen.routeName;
+  Future<String> getLastPage() async {
+    final lastPage = await _prefs.read(key: 'lastPage');
+    return lastPage ?? HomeScreen.routeName;
   }
 
-  set lastPage(String value) {
-    _prefs.setString('lastPage', value);
+  Future<void> setLastPage(String value) async {
+    await _prefs.write(key: 'lastPage', value: value);
   }
 }

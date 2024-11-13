@@ -12,7 +12,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late TextEditingController _textController;
-  final prefs = new UserPreferences();
+  final prefs = UserPreferences();
 
   @override
   void initState() {
